@@ -86,6 +86,20 @@ class MyCustomHomepage extends StatelessWidget {
 
 
 
+class MyCustomhompage extends StatefulWidget {
+  const MyCustomhompage({super.key});
+
+  @override
+  State<MyCustomhompage> createState() => _MyCustomhompageState();
+}
+
+class _MyCustomhompageState extends State<MyCustomhompage> {
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
+
 
 /*      class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
