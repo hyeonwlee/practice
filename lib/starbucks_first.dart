@@ -144,22 +144,23 @@ class MenuCardView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 250, height: 130,
-      margin: EdgeInsets.only(top: 10),
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      margin: const EdgeInsets.only(top: 10),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       decoration: BoxDecoration(
-        color: Color.fromRGBO(234, 234, 234, 100), borderRadius: BorderRadius.circular(10)),
+        color: const Color.fromRGBO(234, 234, 234, 100), borderRadius: BorderRadius.circular(10)),
       child: Column(
         children: [
-          Row(mainAxisAlignment:MainAxisAlignment.end, children: [Icon(Icons.favorite_border_outlined, color: Colors.black26, size: 16,),]),
-          Row(children: [Image.asset(imagePath, height: 45, width: 55,), Text(menu, style: TextStyle(fontSize: 14),)],),
+          const Row(mainAxisAlignment:MainAxisAlignment.end, children: [Icon(Icons.favorite_border_outlined, color: Colors.black26, size: 16,),]),
+          Row(children: [Image.asset(imagePath, height: 45, width: 55,), Text(menu, style: const TextStyle(fontSize: 14),)],),
+          // ignore: prefer_const_constructors
           SizedBox(height: 10),
-          Divider(color: Colors.black26, thickness: 1,),
+          const Divider(color: Colors.black26, thickness: 1,),
           Row(children: [
-            Icon(Icons.location_on_outlined, color: Colors.brown, size: 14,),
-            Text(location, style: TextStyle(color: Colors.brown, fontSize: 12, decoration: TextDecoration.underline, decorationColor: Colors.brown, decorationThickness: 1),),
-            Spacer(),
-            Container(width: 80, height: 20,
-                child: Text("바로 주문하기", style: TextStyle(color:Colors.white, fontSize:12),textAlign: TextAlign.center,), decoration:BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(20)),)
+            const Icon(Icons.location_on_outlined, color: Colors.brown, size: 14,),
+            Text(location, style: const TextStyle(color: Colors.brown, fontSize: 12, decoration: TextDecoration.underline, decorationColor: Colors.brown, decorationThickness: 1),),
+            const Spacer(),
+            Container(width: 80, height: 20, decoration:BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(20)),
+                child: const Text("바로 주문하기", style: TextStyle(color:Colors.white, fontSize:12),textAlign: TextAlign.center,),)
           ],),
         ],
       ),
@@ -169,8 +170,8 @@ class MenuCardView extends StatelessWidget {
 
 
 class NewsCardView extends StatelessWidget {
-  var typeOfNews;
-  var content;
+  Text typeOfNews;
+  RichText content;
   String period;
   String imagePath;
   Color backgroundColor;
@@ -181,12 +182,12 @@ class NewsCardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
       width: double.infinity,
       height: 160,
       decoration: BoxDecoration(color: backgroundColor,
-          boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 5)]),
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 5)]),
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Row(
         children: [
           Flexible(
@@ -198,7 +199,7 @@ class NewsCardView extends StatelessWidget {
                 typeOfNews,
                 content,
                 Text(period,
-                  style: TextStyle(color: Colors.black38, fontSize: 12),)
+                  style: const TextStyle(color: Colors.black38, fontSize: 12),)
               ],
             ),
           ),
