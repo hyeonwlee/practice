@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:practice/first_page_bottom_navigation_bar.dart';
+import 'package:get/get.dart';
+import 'package:practice/controller/starbucks_first_page_controller.dart';
+import 'package:practice/view/starbucks_bottom_nav_page.dart';
 
-class StarbucksFirst extends StatelessWidget {
-  const StarbucksFirst({super.key});
+class StarbucksFirstPage extends GetView<StarbucksFirstPageController> {
+  const StarbucksFirstPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,18 +21,22 @@ class StarbucksFirst extends StatelessWidget {
                   Column(
                     children: [
                       Container(
-                      margin: const EdgeInsets.fromLTRB(35, 50, 120, 20),
-                      alignment: Alignment.centerLeft,
-                      child: const Expanded(child: Text("윤슬처럼 반짝일\n고객님의 하루!",
-                            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),textAlign: TextAlign.left,),),
+                        margin: const EdgeInsets.fromLTRB(35, 50, 120, 20),
+                        child: const Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("윤슬처럼 반짝일", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),textAlign: TextAlign.left,),
+                            Text("고객님의 하루!", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),textAlign: TextAlign.left,),]
+                        ),
                       ),
+                     const SizedBox(height: 20,),
                      SingleChildScrollView(
                        scrollDirection: Axis.horizontal,
                        child: Row(
                            children: [
+                             const SizedBox(width: 35),
                              Container(
-                               margin: const EdgeInsets.fromLTRB(35, 20, 10, 20),
-                               width: 120, height: 40,
+                               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
                                decoration: BoxDecoration(
                                  color: Colors.white, borderRadius: BorderRadius.circular(20), boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 15)]),
                                child: const Row(
@@ -41,9 +47,9 @@ class StarbucksFirst extends StatelessWidget {
                                    Text(" 9", style: TextStyle(color: Colors.brown),),
                                    Text("/12", style: TextStyle(color: Colors.black38),),],),
                              ),
+                             const SizedBox(width: 10,),
                              Container(
-                               margin: const EdgeInsets.fromLTRB(0, 20, 10, 20),
-                               width: 75, height: 40,
+                               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
                                decoration: BoxDecoration(
                                  color: Colors.white, borderRadius: BorderRadius.circular(20), boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 15)]),
                                child: const Row(
@@ -52,9 +58,9 @@ class StarbucksFirst extends StatelessWidget {
                                    Icon(Icons.credit_card, color: Colors.black38, size: 17,),
                                    Text(' Pay', style: TextStyle(fontSize: 17),)],),
                              ),
+                             const SizedBox(width: 10,),
                              Container(
-                               margin: const EdgeInsets.symmetric(vertical: 20),
-                               width: 120, height: 40,
+                               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
                                  decoration: BoxDecoration(
                                      color: Colors.white, borderRadius: BorderRadius.circular(20), boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 15)]),
                                  child: const Row(
@@ -96,7 +102,7 @@ class StarbucksFirst extends StatelessWidget {
                 margin: const EdgeInsets.fromLTRB(15, 25, 15, 5),
                 width: double.infinity, height: 410,
                 decoration: const BoxDecoration(color:Color.fromRGBO(255,242,230,1)),
-                child: Image.asset("assets/image/BigEvent.jpg",fit:BoxFit.fill,),
+                child: Image.network("https://image.istarbucks.co.kr/upload/promotion/WEB_THUM_20240731101653285.jpg",fit:BoxFit.fill,),
               ),
               NewsCardView(
                   typeOfNews: const Text("NEW MD", style: TextStyle(color: Color.fromRGBO(0,30,201,1),fontSize: 13),),
@@ -127,7 +133,7 @@ class StarbucksFirst extends StatelessWidget {
             ],
           ),
         ),
-        bottomNavigationBar: const FirstPageNavigationBar(),
+        bottomNavigationBar: const StarbucksBottomNavPage(),
       ),
     );
   }
@@ -150,7 +156,7 @@ class MenuCardView extends StatelessWidget {
         color: const Color.fromRGBO(234, 234, 234, 100), borderRadius: BorderRadius.circular(10)),
       child: Column(
         children: [
-          const Row(mainAxisAlignment:MainAxisAlignment.end, children: [Icon(Icons.favorite_border_outlined, color: Colors.black26, size: 16,),]),
+          Row(mainAxisAlignment:MainAxisAlignment.end, children: [Icon(Icons.favorite_border_outlined, color: Colors.black26, size: 16,),]),
           Row(children: [Image.asset(imagePath, height: 45, width: 55,), Text(menu, style: const TextStyle(fontSize: 14),)],),
           // ignore: prefer_const_constructors
           SizedBox(height: 10),
