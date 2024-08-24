@@ -7,55 +7,47 @@ class StarbucksSecondOnePage extends GetView<StarbucksSecondPageController> {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<StarbucksSecondPageController>();
     return SafeArea(child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              IconButton(onPressed: (){Get.back();}, icon: const Icon(Icons.arrow_back_ios, size:25),),
-              const SizedBox(height: 5,),
-              const Text(" 결제수단 관리", style: TextStyle(color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold),),
-              const SizedBox(height: 5,),
-              Row(
-                children: [
-                  Obx(()=> Column(children:[
-                    TextButton(onPressed: (){controller.changeTextColor();}, child: Text("스타벅스 카드", style: TextStyle(fontSize: 15, color: controller.textButtonColor1.value,),)),
-                    Container(width: 110, height: 2, decoration: BoxDecoration(color: controller.underlineColor1.value),)])),
-                  SizedBox(width: 10,),
-                  Obx(()=> Column(children: [
-                    TextButton(onPressed: (){controller.changeTextColor();}, child: Text("신용카드 간편결제", style: TextStyle(fontSize: 15, color: controller.textButtonColor2.value),)),
-                    Container(width: 110, height: 2, decoration: BoxDecoration(color: controller.underlineColor2.value),)]))
-                ],
-              ),
-              Container(width: double.infinity, height: 1, decoration: const BoxDecoration(color: Colors.black26, boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 5, offset: Offset(0, 5))]),),
-              const SizedBox(height: 20,),
-              Container(
-                width: double.infinity, height: 100,
-                child: Row(
-                  children: [
-                    Obx(()=> GestureDetector(onTap: ()=>Get.bottomSheet(CardBottomSheet(cardList: controller.representativeCardList)),
-                        child: Image.network(controller.representativeCardList[0], width: 150, height: 100,))),
-                    const Spacer(flex: 1,),
-                    Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      const Spacer(flex: 3,),
-                      Obx(()=> Text(controller.representativeCardList[1], style: const TextStyle(fontSize: 15),)),
-                      const Spacer(flex: 1,),
-                      Obx(()=> Text(controller.representativeCardList[2], style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),)),
-                      const Spacer(flex: 4,)]
-                    ),
-                    const Spacer(flex: 9,),
-                    const Icon(Icons.star, color: Colors.brown, size: 20,),
-                    const Spacer(flex: 1,)
-                  ],
+      backgroundColor: Colors.white,
+        body: DefaultTabController(
+          length: 2,
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                IconButton(onPressed: (){Get.back();}, icon: const Icon(Icons.arrow_back_ios, size:25),),
+                const SizedBox(height: 5,),
+                const Text(" 결제수단 관리", style: TextStyle(color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold),),
+                const SizedBox(height: 5,),
+                const TabBar(
+                  unselectedLabelStyle: TextStyle(fontSize: 15, color: Colors.grey,),
+                  labelStyle: TextStyle(fontSize: 15, color: Colors.black),
+                  indicatorColor: Colors.black,
+                  indicatorWeight: 2,
+                  tabs: [
+                    Tab(text: "스타벅스 카드",),
+                    Tab(text: "신용카드 간편결제",)
+                  ]),
+                Container(width: double.infinity, height: 1, decoration: const BoxDecoration(color: Colors.white10, boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 5, offset: Offset(0, 3))]),),
+                const SizedBox(height: 20,),
+                Expanded(
+                  child: TabBarView(
+                      children: [
+                        Column(
+                          children: [
+                            representativeCardView(representativeCardList: controller.representativeCardList),
+                            const SizedBox(height: 20,),
+                            Container(width: double.infinity, height: 1, decoration: const BoxDecoration(color: Colors.black12),),
+                            const SizedBox(height: 20,),
+                            normalCardView(normalCardList: controller.normalCardList1)
+                          ],
+                        ),
+                        Column(children: [representativeCardView(representativeCardList: controller.normalCardList2)])
+                  ]),
                 ),
-              ),
-              const SizedBox(height: 20,),
-              Container(width: double.infinity, height: 1, decoration: const BoxDecoration(color: Colors.black12),),
-              const SizedBox(height: 20,),
-              normalCardView(normalCardList: controller.normalCardList1)
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -63,13 +55,42 @@ class StarbucksSecondOnePage extends GetView<StarbucksSecondPageController> {
   }
 }
 
-class normalCardView extends StatelessWidget {
+class representativeCardView extends GetView<StarbucksSecondPageController> {
+  final representativeCardList;
+  const representativeCardView({super.key, required this.representativeCardList});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity, height: 100,
+        child: Row(
+          children: [
+            Obx(()=> GestureDetector(onTap: ()=>Get.bottomSheet(CardBottomSheet(cardList: representativeCardList)),
+                child: Image.network(representativeCardList[0], width: 150, height: 100,))),
+            const Spacer(flex: 1,),
+            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              const Spacer(flex: 3,),
+              Obx(()=> Text(representativeCardList[1], style: const TextStyle(fontSize: 15),)),
+              const Spacer(flex: 1,),
+              Obx(()=> Text(representativeCardList[2], style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),)),
+              const Spacer(flex: 4,)]
+            ),
+            const Spacer(flex: 9,),
+            const Icon(Icons.star, color: Colors.brown, size: 20,),
+            const Spacer(flex: 1,)
+          ],
+        )
+    );
+  }
+}
+
+
+class normalCardView extends GetView<StarbucksSecondPageController> {
   final normalCardList;
     normalCardView({super.key, required this.normalCardList});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<StarbucksSecondPageController>();
       return SizedBox(
         width: double.infinity, height: 50,
         child: Row(
@@ -135,39 +156,50 @@ class CardBottomSheet extends StatelessWidget {
   }
 }
 
-class StarbucksSecondTwoPage extends StatelessWidget {
+
+class StarbucksSecondTwoPage extends GetView<StarbucksSecondPageController> {
   const StarbucksSecondTwoPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<StarbucksSecondPageController>();
     return SafeArea(child: Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(children: [
-              IconButton(onPressed: (){Get.back();}, icon: const Icon(Icons.arrow_back_ios, size:25),),
-              const Text('Coupon', style: TextStyle(fontSize: 20),)
-            ]),
-            const SizedBox(height: 5,),
-            Row(
-              children: [
-                Obx(()=> Column(children:[
-                  TextButton(onPressed: (){controller.changeTextColor();}, child: Text("스타벅스 쿠폰", style: TextStyle(fontSize: 15, color: controller.textButtonColor1.value,),)),
-                  Container(width: 110, height: 2, decoration: BoxDecoration(color: controller.underlineColor1.value),)])),
-                SizedBox(width: 10,),
-                Obx(()=> Column(children: [
-                  TextButton(onPressed: (){controller.changeTextColor();}, child: Text("모바일 상품권", style: TextStyle(fontSize: 15, color: controller.textButtonColor2.value),)),
-                  Container(width: 110, height: 2, decoration: BoxDecoration(color: controller.underlineColor2.value),)]))
-              ],
-            ),
-            Container(width: double.infinity, height: 1, decoration: const BoxDecoration(color: Colors.black26, boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 5, offset: Offset(0, 5))]),),
-            const SizedBox(height: 20,),
-            CouponCardView(couponName: "별 12개 적립 무료음료 쿠폰", date: "2024.09.05까지"),
-            CouponCardView(couponName: "2024 서머 e-프리퀀시 무료 음료 대체 e-쿠폰", date: "2024.08.30까지")
-          ],
+      backgroundColor: Colors.white,
+      body: DefaultTabController(
+        length: 2,
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(children: [
+                IconButton(onPressed: (){Get.back();}, icon: const Icon(Icons.arrow_back_ios, size:25),),
+                const Text('Coupon', style: TextStyle(fontSize: 20),)
+              ]),
+              const SizedBox(height: 5,),
+              const TabBar(
+                  unselectedLabelStyle: TextStyle(fontSize: 15, color: Colors.grey,),
+                  labelStyle: TextStyle(fontSize: 15, color: Colors.black),
+                  indicatorColor: Colors.black,
+                  indicatorWeight: 2,
+                  tabs: [
+                    Tab(text: "스타벅스 쿠폰",),
+                    Tab(text: "모바일 상품권",)
+                  ]),
+              Container(width: double.infinity, height: 1, decoration: const BoxDecoration(color: Colors.white10, boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 5, offset: Offset(0, 3))]),),
+              const SizedBox(height: 20,),
+              Expanded(child: TabBarView(
+                children: [
+                  Column(
+                    children: [
+                      CouponCardView(couponName: "별 12개 적립 무료음료 쿠폰", date: "2024.09.05까지"),
+                      CouponCardView(couponName: "2024 서머 e-프리퀀시 무료 음료 대체 e-쿠폰", date: "2024.08.30까지")
+                    ],
+                  ),
+                  Text("사용 가능한 모바일 상품권이 없어요.", style: TextStyle(color: Colors.grey, fontSize: 15), textAlign: TextAlign.center,)
+                ],
+              ))
+            ],
+          ),
         ),
       ),
     ));

@@ -1,6 +1,7 @@
 import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../controller/starbucks_bottom_nav_controller.dart';
 
 class StarbucksBottomNavPage extends GetView<StarbucksBottomNavController> {
@@ -8,16 +9,21 @@ class StarbucksBottomNavPage extends GetView<StarbucksBottomNavController> {
 
   @override
   Widget build(BuildContext context) {
-    final StarbucksBottomNavController controller = Get.find<StarbucksBottomNavController>();
     return Obx(() =>
        BottomNavigationBar(
         currentIndex: controller.currentIndex.value,
         onTap: (index) {
           if (index == 1) {
-            showModalBottomSheet(context: context,
-                builder: (context) {
-                  return const BottomSheetContent();
-                },);
+            controller.changeIndex(1);
+            showModalBottomSheet(context: context, builder: (context) {
+              return const BottomSheetContent1();
+            });
+          }
+          else if (index == 2) {
+            controller.changeIndex(2);
+            showModalBottomSheet(context: context, builder: (context) {
+              return const BottomSheetContent2();
+            });
           }
           else {
             controller.changeIndex(index);
@@ -51,8 +57,8 @@ class StarbucksBottomNavPage extends GetView<StarbucksBottomNavController> {
   }
 }
 
-class BottomSheetContent extends StatelessWidget {
-  const BottomSheetContent({super.key});
+class BottomSheetContent1 extends StatelessWidget {
+  const BottomSheetContent1({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -147,5 +153,86 @@ class BottomSheetContent extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class BottomSheetContent2 extends GetView<StarbucksBottomNavController> {
+  const BottomSheetContent2({super.key});
+
+  final LatLng _center = const LatLng(37.7749, -122.4194);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: MediaQuery
+          .of(context)
+          .size
+          .height * 0.6,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+      ),
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            const Padding(padding: EdgeInsets.all(10)),
+            Container(width: 60,
+              height: 3,
+              decoration: BoxDecoration(color: Colors.black54,
+                  borderRadius: BorderRadius.circular(4)),),
+            Row(
+              children: [
+                const Spacer(flex: 7),
+                const Text("매장 설정",
+                    style: TextStyle(fontSize: 15, color: Colors.black)),
+                const Spacer(flex: 5),
+                Obx(() =>
+                    IconButton(onPressed: controller.changePage,
+                      icon: Icon(controller.changeIcon()),))
+              ],
+            ),
+            Expanded(
+              child: Obx(
+                    () =>
+                controller.isChanged.value
+                    ? ShowGoogleMap()
+                    : ShowStoreList()
+              ),)
+          ]
+      ),
+    );
+  }
+}
+
+class ShowGoogleMap extends GetView<StarbucksBottomNavController> {
+  const ShowGoogleMap({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    controller.onInit();
+      return Obx(
+            () => GoogleMap(
+                initialCameraPosition: CameraPosition(
+                  target: controller.currentPosition.value!,
+                  zoom: 16.0,
+                ),
+                markers: {
+                  Marker(
+                    markerId: MarkerId('starbucks'),
+                    position: controller.currentPosition.value!,
+                    icon: BitmapDescriptor.defaultMarkerWithHue(
+                        BitmapDescriptor.hueBlue),
+                  ),}
+            ),
+      );
+  }
+}
+
+class ShowStoreList extends GetView<StarbucksBottomNavController> {
+  const ShowStoreList({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:practice/routes/pages.dart';
 import 'package:practice/view/starbucks_first_page.dart';
-import 'controller/starbucks_bottom_nav_controller.dart';
+import 'inject_dependencies.dart';
 
-void main() {
-  Get.put(StarbucksBottomNavController());
+void main() async{
+  await dotenv.load(fileName: "assets/config/.env");
+  WidgetsFlutterBinding.ensureInitialized();
+  await injectDependencies();
   runApp(const MyApp());
 }
 
