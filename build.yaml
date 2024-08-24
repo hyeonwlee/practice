@@ -1,0 +1,11 @@
+targets:
+  $default:
+    builders:
+      json_serializable|json_serializable:
+        enabled: true
+        generate_for:
+          - "lib/model/product.dart"
+      freezed:
+        enabled: true
+        generate_for:
+          - "lib/model/product.dart"
