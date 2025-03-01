@@ -7,16 +7,20 @@ import 'package:http/http.dart' as http;
 class StarbucksConnection {
 
   static StarbucksConnection? _connection;
-
-
+  String _baseUrl;
   static StarbucksConnection get instance {
-    _connection ??= StarbucksConnection._();
+    _connection ??= StarbucksConnection._('https://foodish_api.com');
     return _connection!;
   }
 
-  StarbucksConnection._();
+  StarbucksConnection._(this._baseUrl);
+
+  void setBaseUrl(String baseUrl){
+    _baseUrl = baseUrl;
+  }
 
   final Map<String, String> _headers = {"Content-Type": "application/json"};
+
 
   // GET
   Future<http.Response> get(String uri) {
@@ -90,6 +94,6 @@ class StarbucksConnection {
 
   // request 보낼 주소 생성
   Uri _createUri(String path) {
-    return Uri.parse('https://foodish-api.com$path');
+    return Uri.parse('$_baseUrl$path');
   }
 }

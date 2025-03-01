@@ -5,7 +5,9 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:practice/repository/product_repository.dart';
-import '../model/product.dart';
+import 'package:practice/repository/store_repository.dart';
+import '../model/product/product.dart';
+import '../model/store/store.dart';
 
 class StarbucksBottomNavController extends GetxController {
   final currentIndex = 0.obs;
@@ -39,10 +41,17 @@ class StarbucksBottomNavController extends GetxController {
   var currentPosition = Rxn<LatLng>();
   var isMapReady = false.obs;
 
+  final _storeRepo = Get.find<StoreRepository>();
+  final storeList = <Store>[];
+
+  final RxSet<Marker> markers = <Marker>{}.obs;
+
   @override
   void onInit() {
     super.onInit();
     _getCurrentLocation();
+    getStoreList();
+    loadStores();
   }
 
   void _getCurrentLocation() async {
@@ -64,6 +73,36 @@ class StarbucksBottomNavController extends GetxController {
     currentPosition.value = LatLng(position.latitude, position.longitude);
     isMapReady.value = true;
 
+  }
+
+  Future<void> getStoreList() async {
+    final res = await _storeRepo.getStoreList(currentPosition.value!);
+    res.fold((l) => print(l), (r) => storeList.addAll(r));
+  }
+
+  Future<void> loadStores() async {
+    Marker(
+      markerId: MarkerId('current position'),
+      position: currentPosition.value!,
+      icon: BitmapDescriptor.defaultMarkerWithHue(
+          BitmapDescriptor.hueBlue),
+    );
+    for (var store in storeList){
+      final location = store.geometry['location'] as Map<String, dynamic>;
+      final lat = (location['lat'] as num).toDouble();
+      final lng = (location['lng'] as num).toDouble();
+
+      markers.add(
+        Marker(
+          markerId: MarkerId(store.name),
+          position: LatLng(lat, lng),
+          infoWindow: InfoWindow(
+            title: store.name
+          ),
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen)
+        )
+      );
+    }
   }
 
 }

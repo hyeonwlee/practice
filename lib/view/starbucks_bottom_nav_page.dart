@@ -212,17 +212,11 @@ class ShowGoogleMap extends GetView<StarbucksBottomNavController> {
     controller.onInit();
       return Obx(
             () => GoogleMap(
-                initialCameraPosition: CameraPosition(
-                  target: controller.currentPosition.value!,
-                  zoom: 16.0,
-                ),
-                markers: {
-                  Marker(
-                    markerId: MarkerId('starbucks'),
-                    position: controller.currentPosition.value!,
-                    icon: BitmapDescriptor.defaultMarkerWithHue(
-                        BitmapDescriptor.hueBlue),
-                  ),}
+              initialCameraPosition: CameraPosition(
+                target: controller.currentPosition.value!,
+                zoom: 18.0,
+              ),
+              markers: controller.markers
             ),
       );
   }
@@ -233,6 +227,25 @@ class ShowStoreList extends GetView<StarbucksBottomNavController> {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    controller.onInit();
+    return ListView.separated(
+          itemCount: controller.storeList.length,
+          separatorBuilder: (context, index) {
+            return SizedBox(
+              height: 20,
+            );
+          },
+          itemBuilder: (context, index) {
+            final store = controller.storeList[index];
+            return Container(
+              child: Column(
+                children: [
+                  Text(store.name, style: TextStyle(fontSize: 16, color: Colors.black),),
+                  Text(store.vicinity, style: TextStyle(fontSize: 12, color: Colors.black38),)
+                ],
+              ),
+            );
+          },
+    );
   }
 }

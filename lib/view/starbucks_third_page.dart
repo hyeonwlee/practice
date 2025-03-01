@@ -101,7 +101,7 @@ class FoodList extends GetView<StarbucksThirdPageController> {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(50),
-                    child: Image.network(product.images, width: 80, height: 80, fit: BoxFit.fill,))),
+                    child: Image.network(product.images, width: 80, height: 80, fit: BoxFit.fill,)),
                 const SizedBox(width: 20,),
                 Text("디저트$index", style: TextStyle(fontSize: 15, color: Colors.black)),
               ],

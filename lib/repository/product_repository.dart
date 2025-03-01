@@ -3,7 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:get/get.dart';
 
 import 'package:practice/provider/connection.dart';
-import '../model/product.dart';
+import '../model/product/product.dart';
 
 class ProductRepository{
   final _connection = Get.find<StarbucksConnection>();
@@ -11,6 +11,7 @@ class ProductRepository{
   // 상품 리스트 불러오기
   Future<Either<String, List<Product>>> getProductList() async{
     try{
+      _connection.setBaseUrl("https://foodish-api.com");
       final path='/api/images/dessert';
       final res = await _connection.get(path);
       print(res.body);

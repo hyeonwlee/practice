@@ -4,8 +4,10 @@ targets:
       json_serializable|json_serializable:
         enabled: true
         generate_for:
-          - "lib/model/product.dart"
+          - "lib/model/product/product.dart"
+          - "lib/model/store/store.dart"
       freezed:
         enabled: true
         generate_for:
-          - "lib/model/product.dart"
+          - "lib/model/product/product.dart"
+          - "lib/model/store/store.dart"
